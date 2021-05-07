@@ -1,17 +1,45 @@
+.grid-container {
+	display: grid;
+	grid-template-areas:
+    'duct duct duct duct slider'
+	'info info info info slider'
+    'house house house house slider';
+}
+  
+.grid-item {
+	background-color: white;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+	text-align: center;
+	font-size: 30px;
+}
+
+.house-item{ grid-area: house; }
+.duct-item{ grid-area: duct; }
+.info-item{ grid-area: info; }
+.slider-item{ grid-area: slider; }
+
+.rotate {
+	-webkit-transform: rotate(90deg); /* Safari and Chrome */
+    -moz-transform: rotate(90deg);   /* Firefox */
+    -ms-transform: rotate(90deg);   /* IE 9 */
+    -o-transform: rotate(90deg);   /* Opera */
+    transform: rotate(90deg);
+}
+
 .slidecontainer {
 	width: 100%;
 }
 
+
 .slider {
-	-webkit-appearance: none;
 	appearance: none;
 	outline: none;
-	width: 100%;
 	height: 25px;
 	background: grey;
 	opacity: 0.6;
 	-webkit-transition: 0.2s;
-	transition: opacity 0.2s`;
+	transition: opacity 0.2s;
+	padding: 1%;
 }
 
 .slider:hover {

@@ -10,12 +10,22 @@
 	<h1>Heater Page</h1>
 	<p>Click slider to change servo angle</p>
 
-	<div class="slidecontainer">
-		<input type="range" min="0" max="90" class="slider" id="servoAngle">
-		<p>Cur Slider Val: <span id="target"></span></p>
-		<p>Cur Servo Val: <span id="current"></span></p>
+	<div class="grid-container">
+		<div class="grid-item duct-item">Placeholder for the heatduct animation</div>
+
+		<div class="slidecontainer grid-item slider-item">
+			<input type="range" min="0" max="90" class="slider rotate" id="servoAngle">
+		</div>
+		<div class="grid-item info-item">
+			<p>Cur Slider Val: <span id="target"></span></p>
+			<p>Cur Servo Val: <span id="current"></span></p>
+		</div>
+		
+		<div class="grid-item house-item">Placeholder for the picture of the house</div>
 	</div>
+
 	
+
 	<script src="/static/scripts/postScript.js"></script>
 	<script src="/static/scripts/getScript.js"></script>
 
