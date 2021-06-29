@@ -25,9 +25,8 @@ def give_GET_data():
 
 @app.route('/postmethod', methods=['POST'])
 def get_POST_data():
-    jsdata = json.loads(request.form['servo_data'])
-    print(jsdata["Target"])
-    angle = float(jsdata["Target"])
+    jsdata = json.loads(request.form['target_angle'])
+    angle = float(jsdata)
     controller.change_target(angle)
     return('done')
 

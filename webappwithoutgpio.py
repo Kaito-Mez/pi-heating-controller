@@ -16,12 +16,12 @@ def index():
 def give_GET_data():
     #return str(controller.servo_data['Current'])
     # json.dumps({"Target":controller.servo_data["Target"], "Current":temp})
-    return json.dumps({"Target":0, "Current":0})
+    return json.dumps({"Target":65, "Current":0})
 
 @app.route('/postmethod', methods=['POST'])
 def get_POST_data():
-    jsdata = json.loads(request.form['servo_data'])
-    print(jsdata["Target"])
+    jsdata = json.loads(request.form['target_angle'])
+    print(jsdata)
     return('done')
 
 if __name__ == '__main__':
