@@ -33,16 +33,16 @@ function setImages(angle){
 	console.log(front_opacity);
 	$("#back").css({'opacity': back_opacity});
 	$("#front").css({'opacity': front_opacity});
-	$("#slider").css({'background-color':'rgba(255, 0, 0, '+back_opacity});
+	$("#slider .ui-slider-range").css({'background-color':'rgba(255, 0, 0, '+back_opacity});
 
-	
+
 	//if i ever change the background colour from (44, 44, 44 this needs to be recalced)
 	var r = ((front_opacity*255) + ((1-front_opacity)*44));
 	var g = ((1-front_opacity)*44);
 	var b = ((1-front_opacity)*44);
 	console.log(r, g, b);
 
-	$("#slider .ui-slider-range").css({'background-color':'rgb('+r+', '+g+', '+b+')'})
+	$("#slider").css({'background-color':'rgb('+r+', '+g+', '+b+')'})
 }
 
 getInit();
