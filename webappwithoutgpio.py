@@ -16,7 +16,7 @@ def index():
 def give_GET_data():
     #return str(controller.servo_data['Current'])
     # json.dumps({"Target":controller.servo_data["Target"], "Current":temp})
-    return json.dumps({"Target":65, "Current":0})
+    return json.dumps({"Target":65, "Current":10})
 
 @app.route('/postmethod', methods=['POST'])
 def get_POST_data():

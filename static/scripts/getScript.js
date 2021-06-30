@@ -27,15 +27,7 @@ function setCurrent() {
 
 //make overlap image that rotates every time it changes
 function setImages(angle){
-	if(angle<30){
-		$("#duct-image").attr("src", "/static/images/0.png");
-	}
-	else if(angle<60){
-		$("#duct-image").attr("src", "/static/images/45.png");
-	}
-	else{
-		$("#duct-image").attr("src", "/static/images/90.png");
-	}
+	$("#duct-image").css({'transform': 'rotate('+angle+"deg)"});
 }
 
 getInit();

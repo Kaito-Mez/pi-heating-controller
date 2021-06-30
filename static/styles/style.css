@@ -12,11 +12,11 @@ body{
 	grid-area: 1/2/2/3;
 	display:flex;
 	justify-content: center;
+	align-items: center;
 }
 
 .duct-image{
-	max-width: fit-content;
-	max-height: 400px;
+	width: 800px;
 }
 
 .info-container{
