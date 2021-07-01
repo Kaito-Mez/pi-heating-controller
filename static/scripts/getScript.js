@@ -19,14 +19,21 @@ async function getInit() {
 function setCurrent() {
     getRequest().then((data) => {
 	var dict = JSON.parse(data);
+	var change = 0;
 	if($("#current").html() != dict["Current"]){
 		$("#current").html(dict["Current"]);
 		setImages(dict["Current"]);
 	}
 	if($("#slider").slider("value") != dict["Target"]){
-		$("#slider").slider("value", dict["Target"]);
-		$("#target").html(dict["Target"]);
-		setSliderImg(dict["Target"]);
+		console.log("START");
+		setTimeout(function(){
+			console.log("EXE")
+			if($("#slider").slider("value") != dict["Target"]){
+				$("#slider").slider("value", dict["Target"]);
+				$("#target").html(dict["Target"]);
+				setSliderImg(dict["Target"]);
+			}
+		}, 500);
 	}
     });
 }
