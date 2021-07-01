@@ -26,6 +26,7 @@ function setCurrent() {
 	if($("#slider").slider("value") != dict["Target"]){
 		$("#slider").slider("value", dict["Target"]);
 		$("#target").html(dict["Target"]);
+		setSliderImg(dict["Target"]);
 	}
     });
 }
@@ -38,17 +39,9 @@ function setImages(angle){
 	var front_opacity = (1-back_opacity);
 	$("#back").css({'opacity': back_opacity});
 	$("#front").css({'opacity': front_opacity});
-	$("#slider").css({'background-color':'rgba(255, 0, 0, '+front_opacity});
-
-	
-	//if i ever change the background colour from (44, 44, 44 this needs to be recalced)
-	var r = ((back_opacity*255) + ((1-back_opacity)*44));
-	var g = ((1-back_opacity)*44);
-	var b = ((1-back_opacity)*44);
-	console.log(r, g, b);
-
-	$("#slider .ui-slider-range").css({'background-color':'rgb('+r+', '+g+', '+b+')'})
 }
+
+
 getInit();
 
 
