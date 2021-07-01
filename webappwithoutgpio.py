@@ -21,7 +21,6 @@ def give_GET_data():
 @app.route('/postmethod', methods=['POST'])
 def get_POST_data():
     jsdata = json.loads(request.form['target_angle'])
-    print(jsdata)
     return('done')
 
 if __name__ == '__main__':

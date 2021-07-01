@@ -60,7 +60,7 @@ body{
 
 #slider{
 	width: 100%;
-	border: grey solid 1px;
+	border: white solid 1px;
 	outline: none;
 }
 #slider .ui-slider-range{
@@ -87,7 +87,7 @@ body{
 	background-color: rgb(44, 44, 44);
 	padding: 0.4vw 0.2vw;
 	border: 0.2vw solid white;
-	color: white;
+	color: grey;
 	font-weight: 600;
 	height: min-content;
 	width: 90%;
@@ -95,5 +95,4 @@ body{
 .button:hover{
 	transition: 0.2s;
 	background-color: white;
-	color: grey;
 }

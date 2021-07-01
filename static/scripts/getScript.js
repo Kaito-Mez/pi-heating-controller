@@ -19,8 +19,10 @@ async function getInit() {
 function setCurrent() {
     getRequest().then((data) => {
 	var dict = JSON.parse(data);
-	$("#current").html(dict["Current"]);
-	setImages(dict["Current"]);
+	if($("#current").html() != dict["Current"]){
+		$("#current").html(dict["Current"]);
+		setImages(dict["Current"]);
+	}
 	if($("#slider").slider("value") != dict["Target"]){
 		$("#slider").slider("value", dict["Target"]);
 		$("#target").html(dict["Target"]);
@@ -34,7 +36,6 @@ function setImages(angle){
 	$("#duct-image").css({'transform': 'rotate('+(90-angle)+"deg)"});
 	var back_opacity = ((angle/90)*100)/100;
 	var front_opacity = (1-back_opacity);
-	console.log(front_opacity);
 	$("#back").css({'opacity': back_opacity});
 	$("#front").css({'opacity': front_opacity});
 	$("#slider").css({'background-color':'rgba(255, 0, 0, '+back_opacity});
@@ -48,14 +49,12 @@ function setImages(angle){
 
 	$("#slider .ui-slider-range").css({'background-color':'rgb('+r+', '+g+', '+b+')'})
 }
-
 getInit();
-setCurrent();
 
-i = 0;
+
 setInterval(function() {
-    i++;
+	//make this so that the python side is initiating this
     setCurrent();
-}, 1000);
+}, 500);
 
 
