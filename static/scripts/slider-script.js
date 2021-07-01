@@ -22,6 +22,7 @@ $( function() {
 function setAngle(angle, button=false){
     var angle_json = JSON.stringify(angle);
     if(button){
+      console.log("DOING THIS AND ITS FUCKING EVERYTHING UP");
       $("#slider").slider("value", angle);
     }
     setSliderImg(angle);
