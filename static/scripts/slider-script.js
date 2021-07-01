@@ -8,7 +8,11 @@ $( function() {
         $( "#target" ).html( ui.value);
         console.log(ui.value);
         setAngle(ui.value);
+      },
+      change: function(event, ui){
+        setSliderImg(ui.value);
       }
+      
     });
     $( "#target" ).html( $( "#slider" ).slider( "value" ) );
 } );
