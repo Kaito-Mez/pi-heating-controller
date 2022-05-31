@@ -33,7 +33,7 @@ function setAngle(angle, button=false){
 
 
 function setSliderImg(angle){
-	var back_opacity = ((angle/90)*100)/100;
+	var back_opacity = (angle/90);
 	var front_opacity = (1-back_opacity);
 	$("#slider").css({'background-color':'rgba(255, 0, 0, '+front_opacity});
 
