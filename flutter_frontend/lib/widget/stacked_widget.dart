@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 class FloorState extends StatefulWidget {
   final String frontHeat;
@@ -38,8 +37,6 @@ class _MyWidgetState extends State<FloorState> {
   double opacity2 = 0.5;
   double ventRotation = 0;
 
-  Socket socket;
-
   void onChanged(double value) {
     setState(() {
       _sliderVal = value;
@@ -49,28 +46,8 @@ class _MyWidgetState extends State<FloorState> {
     });
   }
 
-  initSocket() {
-    socket = io("localhost:5000", <String, dynamic>{
-      'autoConnect': false,
-      'transports': ['websocket'],
-    });
-    socket.connect();
-    socket.onConnect((_) {
-      print('Connection established');
-    });
-    socket.onDisconnect((_) => print('Connection Disconnection'));
-    socket.onConnectError((err) => print(err));
-    socket.onError((err) => print(err));
-  }
-
   _MyWidgetState(this.frontHeat, this.frontWireframe, this.frontBackground,
       this.backHeat, this.backWireframe, this.backBackground);
-
-  @override
-  void init_state() {
-    initSocket();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
