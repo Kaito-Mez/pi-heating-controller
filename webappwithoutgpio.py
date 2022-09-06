@@ -1,10 +1,13 @@
+from socket import socket
 from flask import Flask, render_template, request
+from flask_socketio import SocketIO
 import json
 from time import sleep
 import asyncio
 import random
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 print('objects created')
 
 
@@ -23,5 +26,7 @@ def get_POST_data():
     jsdata = json.loads(request.form['target_angle'])
     return('done')
 
+@
+
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
+    socketio.run(app)
