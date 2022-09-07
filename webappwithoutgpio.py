@@ -14,6 +14,9 @@ socketio = SocketIO(app)
 print('objects created')
 
 def update_loop(*args):
+    #min angle is 2.1
+    #max angle is 90
+    #actual angle will be just under +2 of target
     moving = False
     current_angle = 0
     target_angle = 0
