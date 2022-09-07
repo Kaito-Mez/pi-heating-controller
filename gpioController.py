@@ -5,7 +5,7 @@ import asyncio
 
 class gpioController():
     def __init__(self):
-        self.servo = AngularServo(12, min_pulse_width = -0.01, max_pulse_width = 0.01911, min_angle=0, max_angle=90)
+        self.servo = AngularServo(12, min_pulse_width = 0, max_pulse_width = 0.01911, min_angle=0, max_angle=90)
         #channel represents which input the pot (servo output) is connected to (pin 0-7)
         self.servo_input = MCP3008(channel=0)
 
