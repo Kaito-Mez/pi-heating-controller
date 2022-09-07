@@ -37,6 +37,7 @@ class gpioController():
         #if value is 0 to 1
         inter = float(self.servo_input.value)
         cur_angle = (inter * 90)
+        print(self.servo_input.value)
         
         return(cur_angle)
     
