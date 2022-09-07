@@ -5,7 +5,7 @@ import asyncio
 
 class gpioController():
     def __init__(self):
-        self.servo = AngularServo(12, min_pulse_width = 0, max_pulse_width = 0.019999, min_angle=0, max_angle=90)
+        self.servo = AngularServo(12, min_pulse_width = 0, max_pulse_width = 0.001, min_angle=0, max_angle=90)
         #channel represents which input the pot (servo output) is connected to (pin 0-7)
         self.servo_input = MCP3008(channel=0)
 
@@ -14,7 +14,7 @@ class gpioController():
         with open(self.dump_file, 'r') as f:
             self.servo_data = json.loads(f.read())
 
-        self.update_current()
+        self.update_current_angle()
 
         try:
             self.servo.angle = float(self.servo_data['Target'])
@@ -29,7 +29,7 @@ class gpioController():
         with open(self.dump_file, 'w') as f:
             json.dump(self.servo_data, f, indent=4)
     
-    def get_current(self):
+    def get_current_angle(self):
         #use this if value is between -1 and 1
         '''inter = float(self.servo_input.value) + 1
         cur_angle = round(inter * 45)'''
@@ -40,23 +40,23 @@ class gpioController():
         
         return(cur_angle)
     
-    def update_current(self):
-        self.servo_data['Current'] = self.get_current()
+    def update_current_angle(self):
+        self.servo_data['Current'] = self.get_current_angle()
         print(self.servo_data)
         with open(self.dump_file, 'w') as f:
             json.dump(self.servo_data, f, indent=4) 
 
     #dont use
     def monitor_angle(self):
-        cur_angle = self.get_current()
+        cur_angle = self.get_current_angle()
         self.monitoring = True
         i = 0
         while self.monitoring:
-            if cur_angle != self.get_current():
-                self.update_current()
-                cur_angle = self.get_current()
+            if cur_angle != self.get_current_angle():
+                self.update_current_angle()
+                cur_angle = self.get_current_angle()
                 print('Current angle changed to ' + str(cur_angle))
-            elif cur_angle == self.get_current():
+            elif cur_angle == self.get_current_angle():
                 print(str(i) + ' didnt change cur angle is ' + str(cur_angle))
                 i+=1
                 sleep(0.5)

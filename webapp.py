@@ -18,7 +18,7 @@ def index():
 def give_GET_data():
     #return str(controller.servo_data['Current'])
     # json.dumps({"Target":controller.servo_data["Target"], "Current":temp})
-    controller.update_current()
+    controller.update_current_angle()
     return json.dumps(controller.servo_data)
 
 @app.route('/postmethod', methods=['POST'])
