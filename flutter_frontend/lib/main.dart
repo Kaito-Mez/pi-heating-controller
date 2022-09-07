@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'widget/stacked_widget.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() {
+  // Dart client
+  IO.Socket socket = IO.io('http://192.168.1.203:5000', <String, dynamic>{
+    'transports': ['websocket']
+  });
+  print("here");
+  socket.onConnect((data) => print("CONNECTED"));
+  socket.connect();
+  socket.emit("message", ["TEST"]);
+  print("done");
   runApp(const MyApp());
 }
 
@@ -41,7 +51,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: accentColor,
           scaffoldBackgroundColor: const Color(0xFF30343F)),
-      home: const MyHomePage(title: 'Heat Router'),
+      home: const MyHomePage(title: 'Heater Router'),
     );
   }
 }
