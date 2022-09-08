@@ -80,7 +80,8 @@ class _MyWidgetState extends State<FloorState> {
 
   void onInit(dynamic jsonData) {
     onUpdate(jsonData);
-    _sliderVal = jsonData['target'];
+    _sliderVal = (0.0 + jsonData['target']) / 90;
+    targetAngle = jsonData['target'];
   }
 
   void onUpdate(dynamic jsonData) {
