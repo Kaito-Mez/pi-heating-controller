@@ -9,13 +9,11 @@ app = Flask(__name__, template_folder="web/")
 app.config["SECRET_KEY"] = 'secret!'
 socketio = SocketIO(app)
 
-needs_update = False
-
 
 jsonData = {
     "current":0,
     "target": 0,
-    "direction": 0,
+    "direction": 0
 }
 
 print('objects created')
@@ -55,7 +53,7 @@ def update_loop():
         
         jsonData['current'] = controller.get_current_angle()
 
-        if round(jsonData['current']) != lastAngle and needs_update == True:
+        if round(jsonData['current']) != lastAngle:
             needs_update = False
             lastAngle = round(jsonData['current'])
 
@@ -88,7 +86,7 @@ def return_flutter_doc(name):
 def handle_message(data):
     jsonData['target'] = data['target']
     controller.change_target(jsonData['target'])
-    needs_update = True
+    emit_update()
 
 @socketio.on('disconnect')
 def disconnect():
