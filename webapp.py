@@ -49,7 +49,6 @@ def update_loop():
 
     lastAngle = jsonData['current']
     while True:
-        print("implement non random and shorter sleep")
         #update current
         
         jsonData['current'] = controller.get_current_angle()
