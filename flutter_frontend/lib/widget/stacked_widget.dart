@@ -70,9 +70,6 @@ class _MyWidgetState extends State<FloorState> {
   void onChangeEnd(double finalVal) {
     setState(() {
       settingAngle = false;
-      if (socket.connected) {
-        socket.emit('change_target', {"target": targetAngle});
-      }
     });
   }
 
@@ -83,6 +80,9 @@ class _MyWidgetState extends State<FloorState> {
       opacity2 = value;
       ventRotation = 1.5708 - (1.5708 * value);
       targetAngle = value * 90;
+      if (socket.connected) {
+        socket.emit('change_target', {"target": targetAngle});
+      }
     });
   }
 
