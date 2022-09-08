@@ -81,10 +81,10 @@ class _MyWidgetState extends State<FloorState> {
   void onChanged(double value) {
     setState(() {
       _sliderVal = value;
-      opacity = value;
-      opacity2 = 1 - value;
-      ventRotation = 1.5708 - (1.5708 * value);
-      targetAngle = value * 90;
+      opacity = 1 - value;
+      opacity2 = value;
+      ventRotation = (1.5708 * value);
+      targetAngle = 90 - (value * 90);
     });
   }
 
