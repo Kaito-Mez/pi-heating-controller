@@ -78,6 +78,11 @@ class _MyWidgetState extends State<FloorState> {
     });
   }
 
+  void onInit(dynamic jsonData) {
+    onUpdate(jsonData);
+    _sliderVal = jsonData['target'];
+  }
+
   void onUpdate(dynamic jsonData) {
     setState(() {
       if (!settingAngle) {
@@ -110,7 +115,7 @@ class _MyWidgetState extends State<FloorState> {
       'transports': ['websocket']
     });
     socket.on('update', ((data) => onUpdate(data)));
-
+    socket.on('init', ((data) => onInit(data)));
     socket.onConnect((data) => print("FLOORSTATE CONNECTED"));
     super.initState();
   }

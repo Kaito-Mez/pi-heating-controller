@@ -1,3 +1,5 @@
+import json
+from socket import socket
 from flask import Flask, render_template, send_from_directory, request
 from flask_socketio import SocketIO
 from gpioController import gpioController
@@ -27,6 +29,10 @@ def get_servo_direction(target_angle, current_angle):
     if target_angle <= 45:
         threshhold += 1
 
+    #last ~5 degrees get weird
+    if target_angle <= 5:
+        threshhold += 1
+
     if current_angle >= target_angle and current_angle < threshhold:
         moving = 0
 
@@ -40,6 +46,9 @@ def get_servo_direction(target_angle, current_angle):
 
 def emit_update():
     socketio.emit("update", jsonData)
+
+def emit_init():
+    socketio.emit("init", jsonData)
 
 def update_loop():
     #min angle is 2.1
@@ -95,7 +104,7 @@ def disconnect():
 @socketio.on('connect')
 def connect():
     print("a client connected", request.namespace, request.sid)
-    emit_update()
+    emit_init()
 
 
 if __name__ == '__main__':
