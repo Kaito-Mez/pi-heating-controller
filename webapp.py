@@ -35,7 +35,6 @@ def get_servo_direction(target_angle, current_angle):
         threshhold += 1
 
     if (current_angle >= target_angle and current_angle < threshhold) or (current_angle > lower_threshold and current_angle <= target_angle):
-        print(target_angle, current_angle, lower_threshold)
         moving = 0
 
     elif current_angle > target_angle:
