@@ -23,17 +23,18 @@ print('objects created')
 #returns -1 if decreasing, 0 if not moving, 1 if increasing
 def get_servo_direction(target_angle, current_angle):
     threshhold = target_angle + 1
+    lower_threshold = target_angle - 0.5
     moving = 0
 
     #threshold increased by 1 for lower angles
-    if target_angle <= 45:
+    if target_angle <= 60:
         threshhold += 1
 
     #last ~5 degrees get weird
     if target_angle <= 5:
         threshhold += 1
 
-    if current_angle >= target_angle and current_angle < threshhold:
+    if current_angle >= target_angle and (current_angle < threshhold or current_angle > lower_threshold):
         moving = 0
 
     elif current_angle > target_angle:
