@@ -10,23 +10,23 @@ async function getRequest() {
 async function getInit() {
 	$.get("/getmethod", function(initdata){
 		initdata = JSON.parse(initdata);
-		$("#target").html(initdata["Target"]);
-		$("#slider").slider("value", initdata["Target"]);
-		setImages(initdata["Current"]);
+		$("#target").html(initdata["target"]);
+		$("#slider").slider("value", initdata["target"]);
+		setImages(initdata["current"]);
 	})
 }
 
 function setCurrent() {
     getRequest().then((data) => {
 	var dict = JSON.parse(data);
-	if($("#slider").slider("value") != dict["Target"]){
-		$("#slider").slider("value", dict["Target"]);
-		$("#target").html(dict["Target"]);
-		setSliderImg(dict["Target"]);
+	if($("#slider").slider("value") != dict["target"]){
+		$("#slider").slider("value", dict["target"]);
+		$("#target").html(dict["target"]);
+		setSliderImg(dict["target"]);
 	}
-	if($("#current").html() != dict["Current"]){
-		$("#current").html(dict["Current"]);
-		setImages(dict["Current"]);
+	if($("#current").html() != dict["current"]){
+		$("#current").html(dict["current"]);
+		setImages(dict["current"]);
 	}
     });
 }
