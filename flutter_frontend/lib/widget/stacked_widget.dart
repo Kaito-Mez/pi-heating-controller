@@ -106,7 +106,7 @@ class _MyWidgetState extends State<FloorState> {
 
   @override
   void initState() {
-    socket = IO.io('ws://192.168.1.203:5000', <String, dynamic>{
+    socket = IO.io('ws://192.168.1.150:5000', <String, dynamic>{
       'transports': ['websocket']
     });
     socket.on('update', ((data) => onUpdate(data)));
