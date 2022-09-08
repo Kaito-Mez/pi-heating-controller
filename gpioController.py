@@ -9,15 +9,13 @@ class gpioController():
         #channel represents which input the pot (servo output) is connected to (pin 0-7)
         self.servo_input = MCP3008(channel=0)
 
-        self.dump_file = '/home/pi/Documents/HeatingProject/static/data/servo_instructions.json'
 
-        with open(self.dump_file, 'r') as f:
-            self.servo_data = json.loads(f.read())
+        self.servo_data = {'target':0, 'current':0}
 
         self.update_current_angle()
 
         try:
-            self.servo.angle = float(self.servo_data['Target'])
+            self.servo.angle = float(self.servo_data['target'])
         except:
             self.servo.angle = 0
             print('JSON SYSTEM IS BROKEN')
@@ -25,9 +23,7 @@ class gpioController():
     def change_target(self, new_angle):
         print('changing angle to ' + str(new_angle))
         self.servo.angle = float(new_angle)
-        self.servo_data['Target'] = new_angle
-        with open(self.dump_file, 'w') as f:
-            json.dump(self.servo_data, f, indent=4)
+        self.servo_data['target'] = new_angle
     
     def get_current_angle(self):
         #use this if value is between -1 and 1
@@ -42,10 +38,7 @@ class gpioController():
         return(cur_angle)
     
     def update_current_angle(self):
-        self.servo_data['Current'] = self.get_current_angle()
-        print(self.servo_data)
-        with open(self.dump_file, 'w') as f:
-            json.dump(self.servo_data, f, indent=4) 
+        self.servo_data['current'] = self.get_current_angle()
 
     #dont use
     def monitor_angle(self):
