@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'widget/stacked_widget.dart';
 
 void main() {
-  // Dart client
   runApp(const MyApp());
 }
 
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Heater Controller',
+      title: 'Heat Router',
       theme: ThemeData(
           // This is the theme of your application.
           //
