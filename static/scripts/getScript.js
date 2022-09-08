@@ -9,6 +9,7 @@ async function getRequest() {
 }
 async function getInit() {
 	$.get("/getmethod", function(initdata){
+        print(initdata);
 		initdata = JSON.parse(initdata);
 		$("#target").html(initdata["target"]);
 		$("#slider").slider("value", initdata["target"]);
