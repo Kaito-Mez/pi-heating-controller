@@ -1,3 +1,4 @@
+from distutils.log import debug
 from socket import socket
 from flask import Flask, render_template, send_from_directory, request
 from flask_socketio import SocketIO, send, emit
@@ -10,7 +11,7 @@ import eventlet
 
 app = Flask(__name__, template_folder="web/")
 app.config["SECRET_KEY"] = 'secret!'
-socketio = SocketIO(app)
+socketio = SocketIO(app, logger = True)
 
 
 jsonData = {
@@ -102,4 +103,4 @@ def connect():
 if __name__ == '__main__':
     socketio.start_background_task(target=update_loop)
     print("next")
-    socketio.run(app, host='0.0.0.0')
+    socketio.run(app, host='0.0.0.0', debug = True)
