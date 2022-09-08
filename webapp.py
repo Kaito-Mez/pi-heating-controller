@@ -1,32 +1,103 @@
-from flask import Flask, render_template, request
-import json
-from gpioController import gpioController
-from time import sleep
-import asyncio
+from flask import Flask, render_template, send_from_directory, request
+from flask_socketio import SocketIO
+import gpioController
 import random
+import eventlet
 
 controller = gpioController()
-app = Flask(__name__)
+app = Flask(__name__, template_folder="web/")
+app.config["SECRET_KEY"] = 'secret!'
+socketio = SocketIO(app)
+
+
+jsonData = {
+    "current":0,
+    "target": 0,
+    "direction": 0,
+}
+
 print('objects created')
+
+#returns -1 if decreasing, 0 if not moving, 1 if increasing
+def get_servo_direction(target_angle, current_angle):
+    threshhold = target_angle + 1
+    moving = 0
+
+    #threshold increased by 1 for lower angles
+    if target_angle <= 45:
+        threshhold += 1
+
+    if current_angle >= target_angle and current_angle < threshhold:
+        moving = 0
+
+    elif current_angle > target_angle:
+        moving = -1
+    
+    elif current_angle < target_angle:
+        moving = 1
+
+    return moving
+
+def emit_update():
+    socketio.emit("update", jsonData)
+
+def update_loop():
+    #min angle is 2.1
+    #max angle is 90
+    #actual angle will be just under +2 of target
+        
+
+    lastAngle = jsonData['current']
+    while True:
+        print("implement non random and shorter sleep")
+        #update current
+        
+        jsonData['current'] = controller.get_current_angle()
+
+        if round(jsonData['current']) != lastAngle:
+            lastAngle = round(jsonData['current'])
+
+            jsonData['direction'] = get_servo_direction(jsonData['target'], jsonData['current'])
+            emit_update()
+        
+        eventlet.sleep(0.1)
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('/index.html')
 
-@app.route('/getmethod', methods=['GET'])
-def give_GET_data():
-    #return str(controller.servo_data['Current'])
-    # json.dumps({"Target":controller.servo_data["Target"], "Current":temp})
-    controller.update_current_angle()
-    return json.dumps(controller.servo_data)
+@app.route('/web/')
+def render_page_web():
+    return render_template("index.html")
 
-@app.route('/postmethod', methods=['POST'])
-def get_POST_data():
-    jsdata = json.loads(request.form['target_angle'])
-    angle = float(jsdata)
-    controller.change_target(angle)
-    return('done')
+@app.route('/web/<path:name>')
+def return_flutter_doc(name):
+    datalist = str(name).split('/')
+    DIR_NAME = "web"
+    if len(datalist) > 1:
+        for i in range(0, len(datalist) - 1):
+            DIR_NAME += '/' + datalist[i]
+            
+    return send_from_directory(DIR_NAME, datalist[-1])    
+
+
+@socketio.on('change_target')
+def handle_message(data):
+    jsonData['target'] = data['target']
+    controller.change_target(jsonData['target'])
+
+@socketio.on('disconnect')
+def disconnect():
+    print("disconnected")
+
+@socketio.on('connect')
+def connect():
+    print("a client connected", request.namespace, request.sid)
+    emit_update()
+
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
+    socketio.start_background_task(target=update_loop)
+    print("next")
+    socketio.run(app, host='0.0.0.0')
