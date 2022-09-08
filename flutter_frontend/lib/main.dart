@@ -4,14 +4,6 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() {
   // Dart client
-  IO.Socket socket = IO.io('http://192.168.1.203:5000', <String, dynamic>{
-    'transports': ['websocket']
-  });
-  print("here");
-  socket.onConnect((data) => print("CONNECTED"));
-  socket.connect();
-  socket.emit("message", ["TEST"]);
-  print("done");
   runApp(const MyApp());
 }
 
