@@ -26,6 +26,7 @@ class FloorState extends StatefulWidget {
 
 class _MyWidgetState extends State<FloorState> {
   bool settingAngle = false;
+  bool showDebug = false;
 
   String frontHeat;
   String frontWireframe;
@@ -43,7 +44,13 @@ class _MyWidgetState extends State<FloorState> {
   double currAngle = 0;
   double targetAngle = 0;
   int direction = 0;
+  dynamic directionToString = {
+    0: "Vent Is Stationary",
+    1: "Vent Is Closing",
+    -1: "Vent Is Opening"
+  };
 
+  String statusString = "";
   late IO.Socket socket;
 
   BreathingWidget closingArrow =
@@ -56,6 +63,7 @@ class _MyWidgetState extends State<FloorState> {
       settingAngle = true;
       openingArrow.state.stopBreathing(500);
       closingArrow.state.stopBreathing(500);
+      statusString = "Setting New Route";
     });
   }
 
@@ -89,6 +97,7 @@ class _MyWidgetState extends State<FloorState> {
       if (!settingAngle) {
         currAngle = jsonData['current'];
         direction = jsonData['direction'];
+        statusString = directionToString[direction];
         double val = currAngle / 90;
         opacity = val;
         opacity2 = 1 - val;
@@ -103,6 +112,17 @@ class _MyWidgetState extends State<FloorState> {
           closingArrow.state.stopBreathing(2000);
           openingArrow.state.stopBreathing(2000);
         }
+      }
+    });
+  }
+
+  void toggleDebug() {
+    print("PResed");
+    setState(() {
+      if (showDebug) {
+        showDebug = false;
+      } else {
+        showDebug = true;
       }
     });
   }
@@ -167,47 +187,91 @@ class _MyWidgetState extends State<FloorState> {
       return value;
     }).toList();
 
-    return Column(children: [
-      Flexible(
-          flex: 2,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      body: Column(children: [
+        Flexible(
+            flex: 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Stack(children: leftItems),
+                ),
+                Flexible(
+                  child: Stack(children: rightItems),
+                )
+              ],
+            )),
+        Flexible(
+          flex: 1,
+          child: Stack(
             children: [
-              Flexible(
-                child: Stack(children: leftItems),
+              Image.asset(
+                "assets/images/vent.png",
+                scale: 0.1,
               ),
-              Flexible(
-                child: Stack(children: rightItems),
-              )
+              Transform.rotate(
+                  angle: ventRotation,
+                  child: Image.asset(
+                    "assets/images/ventThrottle.png",
+                    scale: 0.1,
+                  )),
+              openingArrow,
+              closingArrow
             ],
-          )),
-      Flexible(
-        flex: 1,
-        child: Stack(
-          children: [
-            Image.asset(
-              "assets/images/vent.png",
-              scale: 0.1,
-            ),
-            Transform.rotate(
-                angle: ventRotation,
-                child: Image.asset(
-                  "assets/images/ventThrottle.png",
-                  scale: 0.1,
-                )),
-            openingArrow,
-            closingArrow
-          ],
+          ),
         ),
-      ),
-      Slider(
-        value: _sliderVal,
-        onChanged: onChanged,
-        onChangeStart: (value) => onChangeStart(value),
-        onChangeEnd: (value) => onChangeEnd(value),
-      ),
-      Text("Target: $targetAngle, Current $currAngle, Direction: $direction")
-    ]);
+        Flexible(
+            child: Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Slider(
+            value: _sliderVal,
+            thumbColor: const Color(0xFFfa7d15),
+            inactiveColor: const Color(0xFF57B8FF),
+            onChanged: onChanged,
+            onChangeStart: (value) => onChangeStart(value),
+            onChangeEnd: (value) => onChangeEnd(value),
+          ),
+        ))
+      ]),
+      bottomSheet: Column(mainAxisSize: MainAxisSize.min, children: [
+        Container(
+            alignment: Alignment.center,
+            height: 60,
+            color: const Color.fromARGB(255, 88, 184, 255),
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.only(left: 15),
+            child: Row(mainAxisSize: MainAxisSize.max, children: [
+              Text(
+                statusString,
+                style: const TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              const Expanded(
+                child: Text(""),
+              ),
+              IconButton(
+                iconSize: 10,
+                icon: Image.asset(
+                  "assets/images/debug.png",
+                ),
+                onPressed: () => toggleDebug(),
+              )
+            ])),
+        showDebug
+            ? Text(
+                "DEBUG: Target: $targetAngle, Current $currAngle, Direction: $direction",
+                style: const TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    backgroundColor: Color(0xFFfa7d15)),
+              )
+            : Container(
+                color: const Color.fromARGB(255, 88, 184, 255),
+              )
+      ]),
+    );
   }
 }
 

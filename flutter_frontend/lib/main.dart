@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'widget/stacked_widget.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() {
   // Dart client
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: accentColor,
           scaffoldBackgroundColor: const Color(0xFF30343F)),
-      home: const MyHomePage(title: 'Heater Router'),
+      home: const MyHomePage(title: 'Route Heating'),
     );
   }
 }
@@ -78,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.white,
+
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text(
