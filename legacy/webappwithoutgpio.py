@@ -1,13 +1,10 @@
-from distutils.log import debug
-from socket import socket
+
 from flask import Flask, render_template, send_from_directory, request
-from flask_socketio import SocketIO, send, emit
-import json
-from time import sleep
-import threading
-import asyncio
+from flask_socketio import SocketIO
 import random
 import eventlet
+
+
 
 app = Flask(__name__, template_folder="web/")
 app.config["SECRET_KEY"] = 'secret!'
