@@ -1,7 +1,5 @@
 from gpiozero import AngularServo, MCP3008
 from time import sleep
-import json
-import asyncio
 
 class gpioController():
     def __init__(self):
