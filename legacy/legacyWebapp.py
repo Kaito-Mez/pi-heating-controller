@@ -25,7 +25,7 @@ def give_GET_data():
 def get_POST_data():
     jsdata = json.loads(request.form['target_angle'])
     angle = float(jsdata)
-    controller.change_target(angle)
+    controller.set_target_angle(angle)
     return('done')
 
 if __name__ == '__main__':

@@ -36,7 +36,7 @@ def get_servo_direction(target_angle, current_angle):
     target angle.
     '''
 
-    def withinThreshold(angle, lower_bounds, upper_bounds) -> bool:
+    def iswithinThreshold(angle, lower_bounds, upper_bounds) -> bool:
         '''Checks whether a given angle is within given bounds'''
 
         return (lower_bounds <= angle and angle <= upper_bounds)
@@ -61,7 +61,7 @@ def get_servo_direction(target_angle, current_angle):
         upper_threshold += 1
 
     # Motor is still
-    if (withinThreshold(current_angle, lower_threshold, upper_threshold)):
+    if (iswithinThreshold(current_angle, lower_threshold, upper_threshold)):
         moving = 0
     
     # Motor is reducing in angle
@@ -142,7 +142,7 @@ def handle_target_change(data):
     '''Called when the client changes the target angle'''
 
     jsonData['target'] = data['target']
-    controller.change_target(jsonData['target'])
+    controller.set_target_angle(jsonData['target'])
     emit_update()
 
 @socketio.on('disconnect')

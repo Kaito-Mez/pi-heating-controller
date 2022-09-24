@@ -10,7 +10,7 @@ cont = gpioController()
 #servo = AngularServo(12, min_pulse_width = 0, max_pulse_width = 0.019999, min_angle=0, max_angle=90)
 
 def set_angle():
-    cont.change_target(angle_slider.get())
+    cont.set_target_angle(angle_slider.get())
     '''
     print(angle_slider.get())
     servo.angle = angle_slider.get()

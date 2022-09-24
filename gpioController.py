@@ -1,43 +1,66 @@
 from gpiozero import AngularServo, MCP3008
 from time import sleep
 
+OUTPUT_PIN = 12
+INPUT_CHANNEL = 0
+
+MIN_PULSE_WIDTH = 0
+MAX_PULSE_WIDTH = 0.01927
+
+MIN_ANGLE = 0
+MAX_ANGLE = 90
+
 class gpioController():
+    '''Controls the output to the GPIO pins and reads input from GPIO pins'''
+
+
     def __init__(self):
-        self.servo = AngularServo(12, min_pulse_width = 0, max_pulse_width = 0.01927, min_angle=0, max_angle=90)
-        #channel represents which input the pot (servo output) is connected to (pin 0-7)
-        self.servo_input = MCP3008(channel=0)
+        self.servo_output = AngularServo(
+            pin = OUTPUT_PIN, 
+            min_pulse_width = MIN_PULSE_WIDTH, 
+            max_pulse_width = MAX_PULSE_WIDTH, 
+            min_angle=MIN_ANGLE, 
+            max_angle=MAX_ANGLE
+            )
 
+        # Channel represents which input the pot (servo output) is connected to (pin 0-7)
+        self.servo_input = MCP3008(channel=INPUT_CHANNEL)
 
+        # Keeps track of the servo's state
         self.servo_data = {'target':0, 'current':0}
 
+        # Get current angle and set servo on init
         self.update_current_angle()
-
-        try:
-            self.servo.angle = float(self.servo_data['target'])
-        except:
-            self.servo.angle = 0
-            print('JSON SYSTEM IS BROKEN')
+        self.set_target_angle(self.servo_data['target'])
     
-    def change_target(self, new_angle):
-        print('changing angle to ' + str(new_angle))
-        self.servo.angle = float(new_angle)
+    def set_target_angle(self, new_angle):
+        '''Sets the angle that the servo should rotate to'''
+
+        #print('changing angle to ' + str(new_angle))
+        self.servo_output.angle = float(new_angle)
         self.servo_data['target'] = new_angle
     
-    def get_current_angle(self):
-        #use this if value is between -1 and 1
-        '''inter = float(self.servo_input.value) + 1
-        cur_angle = round(inter * 45)'''
+    def get_current_angle(self) -> float:
+        '''Returns the current angle of the servo'''
 
-        #if value is 0 to 1
-        inter = float(self.servo_input.value)
-        cur_angle = (inter * 90)
+        # Angle of the servo is between 0 and 1
+        # 0 is fully closed, 1 is fully open
+        value = float(self.servo_input.value)
+        # Convert to degrees
+        cur_angle = (value * 90)
         
         return(cur_angle)
     
+
     def update_current_angle(self):
+        '''Refreshes the current angle in self.servo_data'''
         self.servo_data['current'] = self.get_current_angle()
 
-    #dont use
+
+
+    '''Deprecated'''
+
+    #DEPRECATED
     def monitor_angle(self):
         cur_angle = self.get_current_angle()
         self.monitoring = True
@@ -55,15 +78,9 @@ class gpioController():
                 print('ERROR IN MONITOR ANGLE METHOD')
         print("stopped monitoring")
         return
-    #dont use
+
+    #DEPRECATED
     def close_monitor(self):
         self.monitoring = False
         print('stopping monitoring')
         return
-        
-
-'''
-cont = gpioController()
-cont.change_angle(50)
-print('done')
-'''
