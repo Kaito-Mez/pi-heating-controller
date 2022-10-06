@@ -20,21 +20,20 @@ class FloorState extends StatefulWidget {
       super.key});
 
   @override
-  State<FloorState> createState() => _MyWidgetState(frontHeat, frontWireframe,
-      frontBackground, backHeat, backWireframe, backBackground);
+  State<FloorState> createState() => _FloorStateState();
 }
 
-class _MyWidgetState extends State<FloorState> {
+class _FloorStateState extends State<FloorState> {
   bool settingAngle = false;
   bool showDebug = false;
 
-  String frontHeat;
-  String frontWireframe;
-  String frontBackground;
+  late String frontHeat;
+  late String frontWireframe;
+  late String frontBackground;
 
-  String backHeat;
-  String backWireframe;
-  String backBackground;
+  late String backHeat;
+  late String backWireframe;
+  late String backBackground;
 
   double _sliderVal = 0.5;
   double opacity = 0.5;
@@ -57,6 +56,16 @@ class _MyWidgetState extends State<FloorState> {
       BreathingWidget("assets/images/closingArrow.png");
   BreathingWidget openingArrow =
       BreathingWidget("assets/images/openingArrow.png");
+
+  _FloorStateState() {
+    frontHeat = widget.frontHeat;
+    frontWireframe = widget.frontWireframe;
+    frontBackground = widget.frontBackground;
+
+    backHeat = widget.backHeat;
+    backWireframe = widget.backWireframe;
+    backBackground = widget.backBackground;
+  }
 
   void onChangeStart(double initialVal) {
     setState(() {
@@ -128,9 +137,6 @@ class _MyWidgetState extends State<FloorState> {
       }
     });
   }
-
-  _MyWidgetState(this.frontHeat, this.frontWireframe, this.frontBackground,
-      this.backHeat, this.backWireframe, this.backBackground);
 
   @override
   void initState() {
