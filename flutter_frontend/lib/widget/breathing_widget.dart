@@ -8,6 +8,7 @@ class BreathingWidget extends StatefulWidget {
 
   /// Reference to the widgets state
   late _BreathingWidgetState state;
+
   BreathingWidget(this.image, {super.key}) {
     state = _BreathingWidgetState();
   }
@@ -17,16 +18,27 @@ class BreathingWidget extends StatefulWidget {
 
 class _BreathingWidgetState extends State<BreathingWidget>
     with SingleTickerProviderStateMixin {
+  /// Animation controller for the breathing effect.
   late AnimationController _fadeController;
 
+  /// Curved animation
   late CurvedAnimation _breatheAnimation;
+
+  /// The images path
   late String image;
+
+  /// Whether the image should currently be breathing.
   bool _breathing = false;
+
+  /// How long the breathing should take
   int _milliseconds = 2000;
+
   _BreathingWidgetState() {
     image = widget.image;
   }
 
+  /// Start the breathing animation.
+  /// The Breath in will play in ms milliseconds.
   void startBreathing(int ms) {
     bool pre = _breathing;
     setState(() {
@@ -39,6 +51,8 @@ class _BreathingWidgetState extends State<BreathingWidget>
     }
   }
 
+  /// Stop the breathing animation.
+  /// The Breath out will play in ms milliseconds.
   void stopBreathing(int ms) {
     setState(() {
       _milliseconds = ms;
@@ -63,11 +77,13 @@ class _BreathingWidgetState extends State<BreathingWidget>
     super.dispose();
   }
 
+  /// The breath in section of the animation
   void _breathIn() {
     TickerFuture future = _fadeController.forward(from: 0.0);
     future.whenCompleteOrCancel(() => {_breathOut()});
   }
 
+  /// The breath out section of the animation.
   void _breathOut() {
     TickerFuture future2 = _fadeController.reverse(from: _fadeController.value);
     future2.whenComplete(() => {

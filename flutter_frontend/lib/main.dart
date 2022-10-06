@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widget/stacked_widget.dart';
-
-/*
-*
-* Set up the stacked widget file such that it doesnt require any args
-*
-* Make it such that the floorplan pictures could easily be swapped out
-*
-*/
+import 'widget/floor_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +8,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // Material Colour pallete
+  /// Material Colour pallete
   static const Map<int, Color> accentPallete = {
     50: Color.fromRGBO(88, 184, 255, .1),
     100: Color.fromRGBO(88, 184, 255, .2),
@@ -29,7 +21,8 @@ class MyApp extends StatelessWidget {
     800: Color.fromRGBO(88, 184, 255, .9),
     900: Color.fromRGBO(88, 184, 255, 1),
   };
-  //Accent colour for UI
+
+  ///Accent colour for UI
   static const MaterialColor accentColor =
       MaterialColor(0xFF57B8FF, accentPallete);
 
@@ -58,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // Simple AppBar that just displays the title
         appBar: AppBar(
           foregroundColor: Colors.white,
           title: Text(
@@ -66,7 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: const Padding(
             padding: EdgeInsets.only(top: 30),
-            child: FloorState(
+            // The Floor widget contains the majority of the page
+            child: Floor(
+                // Swap these out with your own floorplan.
+
+                // If you do then make sure that all 3 of your
+                // front images size match and all 3 of your rear
+                // images size match.
                 frontHeat: "assets/images/frontHeat.png",
                 frontWireframe: "assets/images/frontWireframe.png",
                 frontBackground: "assets/images/frontBackground.png",
